@@ -4,15 +4,267 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Lesson 1 Pages</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+	<style>
+/* Practice Pages — shared stylesheet */
+
+:root {
+  --bg: #f7f7f5; --surface: #fff; --ink: #16181d; --ink-soft: #5b5f6b;
+  --line: #e7e6e2; --accent: #ff5a3c; --accent-ink: #b23a22; --accent-wash: #fff1ec;
+  --shadow: 0 1px 2px rgba(20,20,20,.04), 0 8px 24px rgba(20,20,20,.05);
+  --radius: 14px; --radius-sm: 9px; --max-width: 720px;
+  --font-display: "Space Grotesk", -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #101114; --surface: #17191e; --ink: #f3f1ec; --ink-soft: #9b9da8;
+  --line: #262830; --accent: #ff6b4a; --accent-ink: #ffab8f; --accent-wash: rgba(255,106,74,.12);
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+body {
+  margin: 0; font-family: var(--font-body); color: var(--ink); background: var(--bg);
+  line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh;
+  transition: background .2s ease, color .2s ease; -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+/* Header / nav */
+.site-header {
+  position: sticky; top: 0; z-index: 10; border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+
+.navbar {
+  max-width: var(--max-width); margin: 0 auto; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: .75rem 1rem; padding: .9rem 1.25rem;
+}
+
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: var(--ink); text-decoration: none; letter-spacing: -.01em; }
+.nav-right { display: flex; align-items: center; gap: .5rem; }
+
+.nav-toggle {
+  display: none; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  font: inherit; font-size: .85rem; color: var(--ink); cursor: pointer; padding: .45rem .8rem;
+}
+
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center; width: 2.1rem; height: 2.1rem;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+  cursor: pointer; transition: border-color .15s ease, color .15s ease, transform .15s ease;
+}
+.theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+.theme-toggle:active { transform: scale(.92); }
+.theme-toggle svg { width: 1.05rem; height: 1.05rem; }
+.theme-toggle .icon-moon { display: none; }
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+
+.nav-links { list-style: none; display: flex; flex-wrap: wrap; gap: .25rem; margin: 0; padding: 0; }
+.nav-links a {
+  display: inline-block; color: var(--ink-soft); text-decoration: none; font-size: .88rem; font-weight: 500;
+  padding: .4rem .7rem; border-radius: 999px; transition: background .15s ease, color .15s ease;
+}
+.nav-links a:hover { color: var(--ink); background: var(--line); }
+.nav-links a.active { color: var(--accent-ink); background: var(--accent-wash); font-weight: 600; }
+
+/* Main content */
+main { flex: 1; width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 3.5rem 1.25rem 2.5rem; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.4rem); letter-spacing: -.02em; margin: 0 0 .9rem; }
+h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; margin-bottom: .5rem; }
+p { color: var(--ink); margin: 0 0 1rem; }
+.lede { color: var(--ink-soft); font-size: 1.05rem; max-width: 50ch; }
+a { color: var(--accent-ink); }
+
+/* Preserved inline links from the original lesson pages */
+main > a {
+  display: inline-flex; align-items: center; gap: .4rem; margin: .25rem 0 1.75rem; padding: .6rem 1rem;
+  border-radius: var(--radius-sm); background: var(--accent-wash); color: var(--accent-ink);
+  text-decoration: none; font-weight: 600; font-size: .92rem; transition: background .15s ease, transform .1s ease;
+}
+main > a:hover { background: var(--accent); color: #fff; }
+main > a:active { transform: scale(.98); }
+
+.page-links { display: flex; flex-wrap: wrap; gap: .6rem; margin: .5rem 0 1.75rem; }
+.page-links a {
+  display: inline-block; padding: .55rem .95rem; border-radius: var(--radius-sm); background: var(--surface);
+  border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-size: .9rem; font-weight: 500;
+  transition: border-color .15s ease, color .15s ease;
+}
+.page-links a:hover { border-color: var(--accent); color: var(--accent-ink); }
+
+/* Notes (expand / collapse) */
+.notes { margin-top: 2.25rem; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+.notes-toggle {
+  width: 100%; background: none; border: none; font: inherit; font-size: .9rem; font-weight: 600; color: var(--ink);
+  cursor: pointer; padding: .9rem 1.1rem; display: flex; align-items: center; gap: .55rem; text-align: left;
+}
+.notes-toggle .arrow { display: inline-flex; color: var(--accent); transition: transform .2s ease; }
+.notes-toggle[aria-expanded="true"] .arrow { transform: rotate(90deg); }
+.notes-body { overflow: hidden; max-height: 0; transition: max-height .25s ease; }
+.notes-body.open { max-height: 20rem; }
+.notes-body p { margin: 0; padding: 0 1.1rem 1.1rem; color: var(--ink-soft); font-size: .95rem; }
+
+/* Prev / Home / Next */
+.lesson-nav {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 3rem;
+  padding-top: 1.75rem; border-top: 1px solid var(--line); font-size: .92rem;
+}
+.lesson-nav .placeholder { visibility: hidden; }
+.lesson-nav a {
+  display: inline-flex; align-items: center; gap: .35rem; text-decoration: none; color: var(--ink); font-weight: 500;
+  padding: .5rem .9rem; border-radius: 999px; border: 1px solid var(--line); transition: border-color .15s ease, color .15s ease;
+}
+.lesson-nav a:hover { border-color: var(--accent); color: var(--accent-ink); }
+.lesson-nav .home-link { border: none; color: var(--ink-soft); font-weight: 500; }
+.lesson-nav .home-link:hover { color: var(--accent-ink); }
+
+/* Footer */
+.site-footer { border-top: 1px solid var(--line); padding: 1.75rem 1.25rem; text-align: center; color: var(--ink-soft); font-size: .85rem; }
+
+/* Home page: lesson list */
+.lesson-list { margin-top: 2.25rem; display: flex; flex-direction: column; gap: .6rem; }
+.lesson-row {
+  display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.2rem; border-radius: var(--radius);
+  border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--ink);
+  transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+.lesson-row:hover { border-color: var(--accent); transform: translateX(3px); box-shadow: var(--shadow); }
+.lesson-row .num { font-family: var(--font-mono); color: var(--accent); font-size: .85rem; font-weight: 500; flex-shrink: 0; width: 1.7rem; }
+.lesson-row .row-text { flex: 1; }
+.lesson-row .row-title { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.02rem; }
+.lesson-row .row-desc { display: block; color: var(--ink-soft); font-size: .9rem; margin-top: .2rem; }
+.lesson-row .row-arrow { color: var(--ink-soft); transition: transform .15s ease, color .15s ease; flex-shrink: 0; }
+.lesson-row:hover .row-arrow { color: var(--accent); transform: translateX(3px); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .nav-toggle { display: inline-block; }
+  .nav-links { display: none; order: 3; flex-basis: 100%; flex-direction: column; width: 100%; padding: .25rem 0; }
+  .nav-links.open { display: flex; }
+  .nav-links a { border-radius: var(--radius-sm); }
+  .nav-right { order: 2; margin-left: auto; }
+  .lesson-row { padding: 1rem; }
+  .lesson-row .row-desc { font-size: .85rem; }
+}
+	</style>
 </head>
 <body>
-	<h1>Lesson 1</h1>
-	<p>Select a page:</p>
-	<nav>
-		<a href="1b.html">Page 1B</a>
-		<a href="1c.html">Page 1C</a>
-		<a href="1d.html">Page 1D</a>
-		<a href="1e.html">Page 1E</a>
-	</nav>
+
+	<header class="site-header">
+		<nav class="navbar">
+			<a class="brand" href="index.html">Practice Pages</a>
+			<ul class="nav-links">
+				<li><a href="index.html">Home</a></li>
+				<li><a href="1a.html">Lesson 1A</a></li>
+				<li><a href="1b.html">Lesson 1B</a></li>
+				<li><a href="1c.html">Lesson 1C</a></li>
+				<li><a href="1d.html">Lesson 1D</a></li>
+				<li><a href="1e.html">Lesson 1E</a></li>
+			</ul>
+			<div class="nav-right">
+				<button class="theme-toggle" aria-label="Toggle dark mode" type="button">
+					<svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+					<svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+				</button>
+				<button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" type="button">Menu</button>
+			</div>
+		</nav>
+	</header>
+
+	<main>
+		<h1>Lesson 1</h1>
+		<p>Select a page:</p>
+		<nav class="page-links">
+			<a href="1b.html">Page 1B</a>
+			<a href="1c.html">Page 1C</a>
+			<a href="1d.html">Page 1D</a>
+			<a href="1e.html">Page 1E</a>
+		</nav>
+
+		<div class="notes">
+			<button class="notes-toggle" aria-expanded="false" aria-controls="notes-1a" type="button">
+				<span class="arrow">▶</span>
+				Why this page exists
+			</button>
+			<div class="notes-body" id="notes-1a">
+				<p>This is the entry point — a plain list of links to the other four pages, so the whole set can be reached from one place. Everything else in this lesson branches out from here.</p>
+			</div>
+		</div>
+
+		<div class="lesson-nav">
+			<span class="placeholder">← Previous</span>
+			<a class="home-link" href="index.html">Home</a>
+			<a href="1b.html">Next →</a>
+		</div>
+	</main>
+
+	<footer class="site-footer">
+		<p>Built while learning to link pages together, one at a time.</p>
+	</footer>
+
+	<script>
+// Practice Pages — shared script (no dependencies, no build step)
+
+(function () {
+  // Set theme before paint, so there's no flash of the wrong color.
+  var saved = null;
+  try { saved = localStorage.getItem("theme"); } catch (e) {}
+  var prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+  // Dark mode toggle
+  var themeToggle = document.querySelector(".theme-toggle");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", function () {
+      var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  }
+
+  // Mobile menu toggle
+  var navToggle = document.querySelector(".nav-toggle");
+  var navLinks = document.querySelector(".nav-links");
+  if (navToggle && navLinks) {
+    navToggle.addEventListener("click", function () {
+      var isOpen = navLinks.classList.toggle("open");
+      navToggle.textContent = isOpen ? "Close" : "Menu";
+      navToggle.setAttribute("aria-expanded", isOpen);
+    });
+  }
+
+  // Mark the current page in the nav
+  var currentPage = window.location.pathname.split("/").pop() || "index.html";
+  document.querySelectorAll(".nav-links a").forEach(function (link) {
+    if (link.getAttribute("href") === currentPage) link.classList.add("active");
+  });
+
+  // "Why this page exists" notes: expand / collapse
+  document.querySelectorAll(".notes-toggle").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var body = document.getElementById(button.getAttribute("aria-controls"));
+      var isOpen = body.classList.toggle("open");
+      button.setAttribute("aria-expanded", isOpen);
+    });
+  });
+});
+	</script>
 </body>
 </html>
